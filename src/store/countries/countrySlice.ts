@@ -3,22 +3,32 @@ import { fetchAllCountries } from './country.action';
 import { ICountries } from '../../tdata/Interface';
 
 interface CounterState {
-    countries: string[],
+    countries: ICountries[],
     isLoading: boolean
+    selectValue: string
 }
 
 const initialState: CounterState = {
   countries: [],
   isLoading: false,
+  selectValue: 'all'
 };
 
 export const countrySlice = createSlice({
   name: 'contry',
   initialState,
   reducers: {
-    fetchingTodos(state, action) {
+    fetchingTodos(state, action:PayloadAction<string>) {
       state.isLoading = true;
     },
+
+    addSelect(state, action) {
+      state.selectValue = action.payload
+    },
+
+    isLoading(state, action) {
+      state.isLoading = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -36,5 +46,5 @@ export const countrySlice = createSlice({
   },
 });
 
-export const { fetchingTodos } = countrySlice.actions;
+export const { fetchingTodos, addSelect, isLoading } = countrySlice.actions;
 export default countrySlice.reducer;
